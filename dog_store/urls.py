@@ -7,7 +7,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path(
         "dog-product/<dog_product_id>",
-        views.dog_product_detail,
+        views.DogProductDetail.as_view(),
         name="dog_product_detail",
     ),
     path(
@@ -15,7 +15,9 @@ urlpatterns = [
         views.purchase_dog_product,
         name="purchase_dog_product",
     ),
-    path("purchase/<purchase_id>", views.purchase_detail, name="purchase_detail"),
+    path(
+        "purchase/<purchase_id>", views.PurchaseDetail.as_view(), name="purchase_detail"
+    ),
     path("dogtag/new", views.new_dog_tag, name="new_dog_tag"),
     path("dogtag", views.dog_tag_list, name="dog_tag_list"),
 ]

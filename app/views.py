@@ -3,6 +3,7 @@ from app.models import DogProduct, Purchase, DogTag
 from datetime import datetime
 from django.contrib import messages
 from app.forms import NewDogTagForm
+from django.views.generic import DetailView
 
 
 def home(request):
@@ -10,9 +11,11 @@ def home(request):
     return render(request, "home.html", {"dog_products": dog_products})
 
 
-def dog_product_detail(request, dog_product_id):
-    dog_product = DogProduct.objects.get(id=dog_product_id)
-    return render(request, "dog_product_detail.html", {"dog_product": dog_product})
+class DogProductDetail(DetailView):
+    model = DogProduct
+    context_object_name = "dog_product"
+    template_name = "dog_product_detail.html"
+    pk_url_kwarg = "dog_product_id"
 
 
 def purchase_dog_product(request, dog_product_id):
@@ -28,9 +31,11 @@ def purchase_dog_product(request, dog_product_id):
         return redirect("dog_product_detail", dog_product.id)
 
 
-def purchase_detail(request, purchase_id):
-    purchase = Purchase.objects.get(id=purchase_id)
-    return render(request, "purchase_detail.html", {"purchase": purchase})
+class PurchaseDetail(DetailView):
+    model = Purchase
+    context_object_name = "purchase"
+    template_name = "purchase_detail.html"
+    pk_url_kwarg = "purchase_id"
 
 
 def new_dog_tag(request):
@@ -60,6 +65,3 @@ def dog_tag_list(request):
     dogtags = DogTag.objects.all()
     return render(request, "dog_tag_list.html", {"dog_tags": dogtags})
 
-
-def dog_tag_templates(request):
-    pass
