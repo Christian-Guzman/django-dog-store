@@ -5,7 +5,11 @@ from app import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),
-    path("dog-product/<dog_product_id>", views.dog_product_detail, name="dog_product_detail"),
+    path(
+        "dog-product/<dog_product_id>",
+        views.dog_product_detail,
+        name="dog_product_detail",
+    ),
     path(
         "dog-product/<dog_product_id>/purchase",
         views.purchase_dog_product,

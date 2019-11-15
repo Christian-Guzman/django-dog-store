@@ -202,7 +202,12 @@ class TestNewDogTag(TestCase):
     def test_creating_a_new_dog_tag(self):
         response = self.client.post(
             reverse("new_dog_tag"),
-            {"owner_name": "Nate", "dog_name": "Amos", "dog_birthday": "03/20/2019"},
+            {
+                "owner_name": "Nate",
+                "dog_name": "Amos",
+                "dog_birthday": "03/20/2019",
+                "dog_tag_color": "blue",
+            },
         )
 
         with self.subTest("should create a new dog tag"):
@@ -213,6 +218,7 @@ class TestNewDogTag(TestCase):
             self.assertEqual(dog_tag.dog_birthday.year, 2019)
             self.assertEqual(dog_tag.dog_birthday.month, 3)
             self.assertEqual(dog_tag.dog_birthday.day, 20)
+            self.assertEqual(dog_tag.dog_tag_color, "blue")
 
         with self.subTest("should redirect to dog_tag_list"):
             self.assertRedirects(response, reverse("dog_tag_list"))
@@ -234,5 +240,4 @@ class TestDogTagList(TestCase):
         for dog_tag in self.dog_tags:
             self.assertContains(response, dog_tag.dog_name)
             self.assertContains(response, dog_tag.owner_name)
-
 
