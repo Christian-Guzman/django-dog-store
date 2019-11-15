@@ -24,8 +24,8 @@ def purchase_dog_product(request, dog_product_id):
         dog_product.save()
         return redirect("purchase_detail", new_purchase.id)
     elif dog_product.quantity == 0:
-        messages.error(request, f"{dog_product.name}  is out of stock")
-        return redirect("dog_product_detail")
+        messages.error(request, f"{dog_product.name} is out of stock")
+        return redirect("dog_product_detail", dog_product.id)
 
 
 def purchase_detail(request, purchase_id):
