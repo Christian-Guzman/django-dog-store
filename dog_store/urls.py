@@ -12,7 +12,7 @@ urlpatterns = [
     ),
     path(
         "dog-product/<dog_product_id>/purchase",
-        views.purchase_dog_product,
+        views.PurchaseDogProduct.as_view(),
         name="purchase_dog_product",
     ),
     path(

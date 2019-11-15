@@ -3,7 +3,7 @@ from app.models import DogProduct, Purchase, DogTag
 from datetime import datetime
 from django.contrib import messages
 from app.forms import NewDogTagForm
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, View
 
 
 class DogProductList(ListView):
@@ -19,17 +19,19 @@ class DogProductDetail(DetailView):
     pk_url_kwarg = "dog_product_id"
 
 
-def purchase_dog_product(request, dog_product_id):
-    dog_product = DogProduct.objects.get(id=dog_product_id)
-    if dog_product.quantity > 0:
-        dog_product.quantity -= 1
-        new_purchase = dog_product.purchase_set.create(purchased_at=datetime.now())
-        messages.success(request, f"Purchased {dog_product.name}")
-        dog_product.save()
-        return redirect("purchase_detail", new_purchase.id)
-    elif dog_product.quantity == 0:
-        messages.error(request, f"{dog_product.name} is out of stock")
-        return redirect("dog_product_detail", dog_product.id)
+class PurchaseDogProduct(View):
+    def post(self, request, dog_product_id):
+        dog_product = DogProduct.objects.get(id=dog_product_id)
+        if dog_product.quantity > 0:
+            dog_product.quantity -= 1
+            new_purchase = dog_product.purchase_set.create(purchased_at=datetime.now())
+            messages.success(request, f"Purchased {dog_product.name}")
+            dog_product.save()
+            return redirect("purchase_detail", new_purchase.id)
+        elif dog_product.quantity == 0:
+            messages.error(request, f"{dog_product.name} is out of stock")
+            return redirect("dog_product_detail", dog_product.id)
+
 
 
 class PurchaseDetail(DetailView):
