@@ -18,6 +18,6 @@ urlpatterns = [
     path(
         "purchase/<purchase_id>", views.PurchaseDetail.as_view(), name="purchase_detail"
     ),
-    path("dogtag/new", views.new_dog_tag, name="new_dog_tag"),
+    path("dogtag/new", views.NewDogTag.as_view(), name="new_dog_tag"),
     path("dogtag", views.DogTagList.as_view(), name="dog_tag_list"),
 ]

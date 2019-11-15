@@ -3,7 +3,8 @@ from app.models import DogProduct, Purchase, DogTag
 from datetime import datetime
 from django.contrib import messages
 from app.forms import NewDogTagForm
-from django.views.generic import DetailView, ListView, View
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, View, CreateView
 
 
 class DogProductList(ListView):
@@ -41,27 +42,13 @@ class PurchaseDetail(DetailView):
     pk_url_kwarg = "purchase_id"
 
 
-def new_dog_tag(request):
-    if request.method == "GET":
-        return render(request, "new_dog_tag.html")
-    else:
-        form = NewDogTagForm(request.POST)
-        if form.is_valid():
-            owner_name = form.cleaned_data["owner_name"]
-            dog_name = form.cleaned_data["dog_name"]
-            dog_birthday = form.cleaned_data["dog_birthday"]
-            dog_tag_color = form.cleaned_data["dog_tag_color"]
-            new_tag = DogTag.objects.create(
-                owner_name=owner_name,
-                dog_name=dog_name,
-                dog_birthday=dog_birthday,
-                dog_tag_color=dog_tag_color,
-            )
-            new_tag.save()
-            return redirect("dog_tag_list")
-        else:
-            form = NewDogTagForm()
-            return render(request, "new_dog_tag.html", {"form": form})
+
+class NewDogTag(CreateView):
+    model = DogTag
+    fields = ['owner_name', 'dog_name', 'dog_birthday', 'dog_tag_color']
+    success_url = reverse_lazy('dog_tag_list')
+    template_name = 'new_dog_tag.html'
+    context_object_name = 'form'
 
 
 class DogTagList(ListView):
