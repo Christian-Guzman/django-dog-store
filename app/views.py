@@ -3,12 +3,13 @@ from app.models import DogProduct, Purchase, DogTag
 from datetime import datetime
 from django.contrib import messages
 from app.forms import NewDogTagForm
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 
-def home(request):
-    dog_products = DogProduct.objects.all()
-    return render(request, "home.html", {"dog_products": dog_products})
+class DogProductList(ListView):
+    model = DogProduct
+    context_object_name = "dog_products"
+    template_name = "home.html"
 
 
 class DogProductDetail(DetailView):
@@ -61,7 +62,8 @@ def new_dog_tag(request):
             return render(request, "new_dog_tag.html", {"form": form})
 
 
-def dog_tag_list(request):
-    dogtags = DogTag.objects.all()
-    return render(request, "dog_tag_list.html", {"dog_tags": dogtags})
+class DogTagList(ListView):
+    model = DogTag
+    template_name = 'dog_tag_list.html'
+    context_object_name = 'dog_tags'
 

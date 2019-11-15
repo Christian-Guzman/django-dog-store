@@ -4,7 +4,7 @@ from app import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.home, name="home"),
+    path("", views.DogProductList.as_view(), name="home"),
     path(
         "dog-product/<dog_product_id>",
         views.DogProductDetail.as_view(),
@@ -19,5 +19,5 @@ urlpatterns = [
         "purchase/<purchase_id>", views.PurchaseDetail.as_view(), name="purchase_detail"
     ),
     path("dogtag/new", views.new_dog_tag, name="new_dog_tag"),
-    path("dogtag", views.dog_tag_list, name="dog_tag_list"),
+    path("dogtag", views.DogTagList.as_view(), name="dog_tag_list"),
 ]
